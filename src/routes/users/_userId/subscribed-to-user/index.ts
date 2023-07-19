@@ -13,6 +13,8 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
         200: Type.Array(userSchema),
       },
     },
+
+    //read about operator "in" to complete dataloader test
     async handler(req) {
       return prisma.user.findMany({
         where: {
