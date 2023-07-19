@@ -18,3 +18,23 @@ export const createGqlResponseSchema = {
     },
   ),
 };
+
+export const typeDefs = `#graphql
+type User {
+  id: ID!
+  name: String!
+  # posts: [Post!]
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  # author: User!
+}
+
+type Query {
+  users: [User!]!
+  posts: [Post!]!
+}
+`
