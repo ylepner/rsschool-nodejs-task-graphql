@@ -20,14 +20,47 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
       const { query, variables, operationName } = req.body;
       const { prisma, httpErrors } = fastify;
       const resolvers = {
-
         users: () => {
           return prisma.user.findMany();
         },
+        user: ({ id }) => {
+          return prisma.user.findUnique({
+            where: {
+              id: id,
+            }
+          })
+        },
         posts: () => {
           return prisma.post.findMany();
-        }
-      };
+        },
+        post: ({ id }) => {
+          return prisma.post.findUnique({
+            where: {
+              id: id
+            }
+          })
+        },
+        profiles: () => {
+          return prisma.profile.findMany();
+        },
+        profile: ({ id }) => {
+          return prisma.profile.findUnique({
+            where: {
+              id: id
+            }
+          })
+        },
+        memberTypes: () => {
+          return prisma.memberType.findMany();
+        },
+        memberType: ({ id }) => {
+          return prisma.memberType.findUnique({
+            where: {
+              id: id
+            }
+          })
+        },
+      }
       try {
         const result = await graphql({
           schema,
@@ -47,5 +80,6 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
     },
   });
 };
+
 
 export default plugin;
