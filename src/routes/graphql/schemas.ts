@@ -71,29 +71,3 @@ type Query {
   memberType(id: MemberTypeId!): MemberType
 }
 `
-
-/*
-  {
-        memberTypes {
-            id
-            discount
-            postsLimitPerMonth
-        }
-        posts {
-            id
-            title
-            content
-        }
-        users {
-            id
-            name
-            balance
-        }
-        profiles {
-            id
-            isMale
-            yearOfBirth
-        }
-    }
- 
- */
