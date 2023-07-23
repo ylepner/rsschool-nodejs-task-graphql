@@ -2,8 +2,6 @@ import { test } from 'tap';
 import { build } from '../helper.js';
 import { createUser, getPrismaStats, gqlQuery, subscribeTo } from '../utils/requests.js';
 
-// new Dataloader().prime()
-
 await test('gql-loader-prime', async (t) => {
   const app = await build(t);
 

@@ -21,7 +21,16 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
       const { prisma, httpErrors } = fastify;
       const resolvers = {
         users: () => {
-          return prisma.user.findMany();
+          return prisma.user.findMany({
+            include: {
+              posts: true,
+              profile: {
+                include: {
+                  memberType: true,
+                }
+              },
+            }
+          });
         },
         user: async ({ id }) => {
 
