@@ -27,7 +27,10 @@ type User {
   id: UUID!
   name: String!
   balance: Float!
-  # posts: [Post!]
+  posts: [Post!]
+  profile: Profile
+  userSubscribedTo: [User]
+  subscribedToUser: [User]
 }
 
 type Post {
@@ -40,9 +43,10 @@ type Post {
 type Profile {
   id: UUID!
   isMale: Boolean!
-  yearOfBirth: Int!,
+  yearOfBirth: Int!
   # userId: String!
-  # memberTypeId: String!
+  memberTypeId: MemberTypeId!
+  memberType: MemberType!
 }
 
 enum MemberTypeId {

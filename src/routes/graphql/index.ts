@@ -23,12 +23,53 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
         users: () => {
           return prisma.user.findMany();
         },
-        user: ({ id }) => {
-          return prisma.user.findUnique({
+        user: async ({ id }) => {
+
+          const q = await prisma.user.findUnique({
             where: {
               id: id,
-            }
+            },
+            include: {
+              profile: {
+                include: {
+                  memberType: true,
+                }
+              },
+              posts: true,
+              userSubscribedTo: {
+                include: {
+                  author: {
+                    include: {
+                      subscribedToUser: true
+                    }
+                  },
+                },
+              },
+              subscribedToUser: {
+                include: {
+                  subscriber: {
+                    include: {
+                      userSubscribedTo: true
+                    }
+                  }
+                }
+              },
+            },
+
+          });
+          q?.subscribedToUser.forEach(user => {
+            user.subscriber.userSubscribedTo.forEach((u) => {
+              Object.assign(u, { id: u.authorId })
+            })
+            Object.assign(user, user.subscriber)
           })
+          q?.userSubscribedTo.forEach(user => {
+            user.author.subscribedToUser.forEach((u) => {
+              Object.assign(u, { id: u.subscriberId })
+            })
+            Object.assign(user, user.author)
+          })
+          return q;
         },
         posts: () => {
           return prisma.post.findMany();
